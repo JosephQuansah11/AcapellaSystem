@@ -1,0 +1,6 @@
+{
+  "name": "VoxSplit",
+  "description": "Acapella multi-track video collage recording studio with real-time pitch correction, loop alignment, HD export, and social sharing.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
