@@ -152,44 +152,44 @@ export const CollageStage: React.FC<CollageStageProps> = ({
 
   const aspectBoxClass =
     aspectRatio === '16:9'
-      ? 'aspect-video max-h-[500px] w-full'
+      ? 'aspect-video w-full max-h-[340px]'
       : aspectRatio === '9:16'
-        ? 'aspect-[9/16] h-[480px] max-w-[300px]'
-        : 'aspect-square h-[460px] max-w-[460px]';
+        ? 'aspect-[9/16] h-[340px] max-w-[205px]'
+        : 'aspect-square h-[330px] max-w-[330px]';
 
   return (
-    <section className="flex flex-col flex-1 min-w-0 bg-[#0D1119] border-r border-white/8">
+    <section className="flex flex-col w-full lg:w-[440px] xl:w-[500px] shrink-0 bg-[#101218]">
       {/* Stage Toolbar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-3 border-b border-white/6 bg-[#10151F]">
-        <div className="flex items-center gap-1 p-1 bg-[#090C12] rounded-lg border border-white/8">
+      <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-2 border-b border-white/8 bg-[#161922]">
+        <div className="flex items-center gap-0.5 p-0.5 bg-[#0D0F15] rounded-md border border-white/10">
           {LAYOUT_OPTIONS.map((opt) => (
             <button
               key={opt.id}
               type="button"
               onClick={() => onChangeLayout(opt.id)}
-              className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-md transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
+              title={opt.label}
+              className={`inline-flex items-center gap-1 px-2 py-1 text-[11px] font-medium rounded transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
                 layout === opt.id
-                  ? 'bg-[#1D2535] text-white'
+                  ? 'bg-[#222736] text-white'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
               {opt.icon}
-              <span className="hidden sm:inline">{opt.label}</span>
             </button>
           ))}
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           {/* Aspect Ratio Switcher */}
-          <div className="flex items-center gap-1 p-1 bg-[#090C12] rounded-lg border border-white/8">
+          <div className="flex items-center gap-0.5 p-0.5 bg-[#0D0F15] rounded-md border border-white/10">
             {(['16:9', '9:16', '1:1'] as AspectRatio[]).map((ratio) => (
               <button
                 key={ratio}
                 type="button"
                 onClick={() => onChangeAspectRatio(ratio)}
-                className={`px-2.5 py-1 text-xs font-mono font-medium rounded-md transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
+                className={`px-2 py-1 text-[11px] font-mono font-medium rounded transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
                   aspectRatio === ratio
-                    ? 'bg-[#1D2535] text-white'
+                    ? 'bg-[#222736] text-white'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -202,33 +202,33 @@ export const CollageStage: React.FC<CollageStageProps> = ({
           <button
             type="button"
             onClick={onOpenDeviceModal}
-            className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold border transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
               hasMic || isVirtualInput
                 ? 'bg-emerald-500/12 text-emerald-300 border-emerald-500/30 hover:bg-emerald-500/20'
-                : 'bg-rose-500/12 text-rose-300 border-rose-500/30 hover:bg-rose-500/20'
+                : 'bg-[#261618] text-[#FF5E54] border-[#FF3B30]/35 hover:bg-[#3A1C20]'
             }`}
           >
-            {hasCam ? <Camera className="w-3.5 h-3.5" /> : <CameraOff className="w-3.5 h-3.5" />}
+            {hasCam ? <Camera className="w-3 h-3" /> : <CameraOff className="w-3 h-3" />}
             {hasMic || isVirtualInput ? (
-              <Mic className="w-3.5 h-3.5" />
+              <Mic className="w-3 h-3" />
             ) : (
-              <MicOff className="w-3.5 h-3.5" />
+              <MicOff className="w-3 h-3" />
             )}
             <span>
               {isVirtualInput
-                ? 'Virtual Vocal Input'
+                ? 'Virtual Mic'
                 : hasMic && hasCam
-                  ? 'Mic & Cam Ready'
+                  ? 'Cam + Mic'
                   : hasMic
-                    ? 'Mic Ready (No Cam)'
-                    : 'Connect Mic & Cam'}
+                    ? 'Mic Only'
+                    : 'Input Setup'}
             </span>
           </button>
         </div>
       </div>
 
       {/* Synchronized Collage Canvas Viewport */}
-      <div className="flex-1 flex items-center justify-center p-5 bg-[#090C12] relative overflow-hidden">
+      <div className="flex-1 flex items-center justify-center p-4 bg-[#0B0D12] relative overflow-hidden">
         {countInBeat !== null && (
           <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/55 backdrop-blur-[2px] pointer-events-none">
             <div className="text-center">

@@ -28,6 +28,15 @@ export type ExportFormat = 'video-webm' | 'video-mp4' | 'audio-wav';
 
 export type ExportResolution = '1080p' | '720p';
 
+export type FxPresetId =
+  | 'clean'
+  | 'warm-pop'
+  | 'cathedral-choir'
+  | 'slapback-studio'
+  | 'radio-lofi'
+  | 'tight-bass'
+  | 'custom';
+
 export interface PitchSettings {
   enabled: boolean;
   key: MusicalKey;
@@ -58,13 +67,34 @@ export interface Track {
   armed: boolean;
   volume: number; // 0 to 1.5
   pan: number; // -1 to 1
+
+  // Editable Vocal FX Chain (BandLab-style)
+  fxPreset: FxPresetId;
+  fxEnabled: boolean;
   reverbSend: number; // 0 to 1
+  delayMix: number; // 0 to 0.8
+  delayTimeMs: number; // 60 to 450
+  delayFeedback: number; // 0 to 0.65
+  chorusDepth: number; // 0 to 1
+  compThreshold: number; // -40 to 0 dB
+  compRatio: number; // 1 to 12
   eqLow: number; // -12 to +12 dB
   eqMid: number; // -12 to +12 dB
   eqHigh: number; // -12 to +12 dB
+
+  // Editable Clip Audio Properties
+  clipGainDb: number; // -12 to +12 dB
+  semitoneShift: number; // -12 to +12
+  centsDetune: number; // -50 to +50
+  trimStartSec: number; // non-destructive start trim inside audioBuffer
+  trimEndSec: number; // non-destructive end trim (0 = full duration)
+  fadeInSec: number; // 0 to 3
+  fadeOutSec: number; // 0 to 3
+  reversed: boolean;
+
   pitchCorrectTake: boolean;
-  offsetSec: number; // alignment offset in seconds
-  durationSec: number;
+  offsetSec: number; // timeline placement offset in seconds
+  durationSec: number; // full underlying audioBuffer duration
   audioBuffer: AudioBuffer | null;
   waveformPeaks: number[];
   videoUrl: string | null;
@@ -91,10 +121,29 @@ export interface ExportResult {
 }
 
 export interface ProjectMeta {
+  id: string;
   title: string;
   bpm: number;
   timeSignatureNumerator: number;
   metronomeEnabled: boolean;
   countInBars: number;
   latencyOffsetMs: number;
+}
+
+export interface StudioSnapshot {
+  tracks: Track[];
+  project: ProjectMeta;
+  pitchSettings: PitchSettings;
+  loop: LoopRegion;
+  layout: CollageLayout;
+  aspectRatio: AspectRatio;
+}
+
+export interface SavedProjectSummary {
+  id: string;
+  title: string;
+  bpm: number;
+  musicalKey: MusicalKey;
+  trackCount: number;
+  updatedAt: number;
 }
